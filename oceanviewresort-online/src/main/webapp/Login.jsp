@@ -86,7 +86,6 @@
             margin-bottom: 20px;
         }
         
-        
         .login-btn {
             background: #448AFF;
             color: white;
@@ -98,12 +97,22 @@
             width: 100%;
             transition: all 0.3s ease;
             margin-bottom: 25px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .login-btn:hover {
             background: #2962FF;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(40,167,69,0.3);
+            box-shadow: 0 5px 15px rgba(68,138,255,0.3);
+        }
+        
+        .login-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
         }
         
         .register-link {
@@ -151,23 +160,123 @@
             font-size: 14px;
             margin-left: 3px;
         }
+        
+        .alert {
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            border: none;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+        
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .fade-out {
+            animation: fadeOut 0.5s ease-in-out forwards;
+            animation-delay: 3s;
+        }
+        
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+                display: none;
+            }
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .btn-loading {
+            opacity: 0.8;
+            cursor: wait;
+        }
     </style>
 </head>
 <body>
     <div class="login-container">
         <div class="login-card">
             
-            <h2>Welcome to Login Page!</h2>
+            <h2>Welcome to Login Page</h2>
             
-            <form action="#" method="post">
+            <%
+                // Get form parameters
+                String email = request.getParameter("email");
+                String password = request.getParameter("password");
+                String message = "";
+                String messageType = "";
+                
+                // Check if form is submitted
+                if (email != null && password != null) {
+                    // Hardcoded credentials (you can modify these)
+                    String validEmail = "abc@gmail.com";
+                    String validPassword = "qaz123";
+                    
+                    if (email.equals(validEmail) && password.equals(validPassword)) {
+                        // Set session attributes
+                        session.setAttribute("userEmail", email);
+                        session.setAttribute("userName", email.split("@")[0]); // Extract username from email
+                        session.setAttribute("loggedIn", true);
+                        session.setAttribute("loginTime", new java.util.Date().toString());
+                        
+                        // Redirect to main.jsp
+                        response.sendRedirect("Main.jsp");
+                        return; // Important: Stop further processing
+                    } else {
+                        message = "Check your user email and password. Please try again.";
+                        messageType = "danger";
+                    }
+                }
+            %>
+            
+            <%-- Display message if exists --%>
+            <% if (!message.isEmpty()) { %>
+                <div class="alert alert-<%= messageType %> fade-out" role="alert">
+                    <%= message %>
+                </div>
+            <% } %>
+            
+            <form action="#" method="post" id="loginForm">
                 <div class="form-group">
-                    <label>User Name <span class="required-field">*</span></label>
-                    <input type="email" class="form-control" placeholder="Enter your email" required>
+                    <label>User Email <span class="required-field">*</span></label>
+                    <input type="email" 
+                           class="form-control" 
+                           name="email"
+                           placeholder="Enter your email" 
+                           value="<%= email != null && messageType.equals("danger") ? email : "" %>"
+                           required>
                 </div>
                 
                 <div class="form-group">
                     <label>Password <span class="required-field">*</span></label>
-                    <input type="password" class="form-control" placeholder="Enter your password" required>
+                    <input type="password" 
+                           class="form-control" 
+                           name="password"
+                           placeholder="Enter your password" 
+                           required>
                 </div>
                 
                 <div class="action-buttons">
@@ -176,13 +285,42 @@
                     </div>
                 </div>
                 
-                <button type="submit" class="login-btn">LOGIN</button>
+                <button type="submit" class="login-btn" id="loginBtn">
+                    <span class="btn-text">LOGIN</span>
+                    <span class="loading-spinner" style="display: none;"></span>
+                </button>
             </form>
+            
+            <div class="register-link text-center mt-3" style="font-size: 13px; color: #999;">
+                Demo credentials: abc@gmail.com / qaz123
+            </div>
         </div>
     </div>
     
     <!-- Optional Bootstrap JS for better interactivity -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Auto-hide alerts after 8 seconds
+        setTimeout(function() {
+            var alerts = document.getElementsByClassName('alert');
+            for(var i = 0; i < alerts.length; i++) {
+                alerts[i].style.display = 'none';
+            }
+        }, 8000);
+        
+        // Show loading spinner on form submit
+        document.getElementById('loginForm').addEventListener('submit', function() {
+            var btn = document.getElementById('loginBtn');
+            var btnText = btn.querySelector('.btn-text');
+            var spinner = btn.querySelector('.loading-spinner');
+            
+            btnText.style.display = 'none';
+            spinner.style.display = 'inline-block';
+            btn.classList.add('btn-loading');
+            btn.disabled = true;
+        });
+    </script>
 </body>
 </html>
