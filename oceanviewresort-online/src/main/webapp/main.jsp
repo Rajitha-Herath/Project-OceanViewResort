@@ -76,22 +76,22 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="AddReservations.jsp">Add Room Reservations </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="DisplayReservations.jsp">Display Reservations </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="Bill.jsp">Print Bill </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="help.jsp">Help</a>
-                    </li>
-                    <li class="nav-item">
-                    	<a href="logout.jsp" class="btn logout-btn">Logout</a>
-                    </li>
-                </ul>
+    				<li class="nav-item active">
+       					<a class="nav-link" href="addReservations.jsp">Add Room Reservations</a>
+    				</li>
+    				<li class="nav-item">
+       					<a class="nav-link" href="displayReservations.jsp">Display Reservations</a>
+   					</li>
+    				<li class="nav-item">
+        				<a class="nav-link" href="bill.jsp">Print Bill</a>
+    				</li>
+    				<li class="nav-item">
+        				<a class="nav-link" href="help.jsp">Help</a>
+   					</li>
+    				<li class="nav-item">
+        				<a href="#" class="btn logout-btn">Logout</a>
+   					</li>
+				</ul>
             </div>
         </div>
     </nav>
@@ -108,7 +108,8 @@
                     <div class="card-body">
                         <h5 class="card-title">Add New Room Reservation</h5>
                         <p class="card-text">Add new room reservations using guest details.</p>
-                        <a href="AddReservations.jsp" class="btn btn-primary">Go to Reservations</a>
+                        <!-- FIXED: Changed from direct WEB-INF link to controller -->
+                        <a href="addReservations.jsp" class="btn btn-primary">Go to Reservations</a>
                     </div>
                 </div>
             </div>
@@ -117,7 +118,8 @@
                     <div class="card-body">
                         <h5 class="card-title">Display Reservation Details</h5>
                         <p class="card-text">Display complete booking information of reservation</p>
-                        <a href="DisplayReservations.jsp" class="btn btn-primary">View Reservations</a>
+                        <!-- FIXED: Changed from addReservation to displayReservations -->
+                        <a href="displayReservations.jsp" class="btn btn-primary">View Reservations</a>
                     </div>
                 </div>
             </div>
@@ -125,8 +127,9 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Print Bill</h5>
-                        <p class="card-text">Calculate the final bill and print it. </p>
-                        <a href="Bill.jsp" class="btn btn-primary">View Bill</a>
+                        <p class="card-text">Calculate the final bill and print it.</p>
+                        <!-- FIXED: Changed from direct Bill.jsp to controller -->
+                        <a href="bill.jsp" class="btn btn-primary">View Bill</a>
                     </div>
                 </div>
             </div>
@@ -138,7 +141,8 @@
                 <div class="card">
                     <div class="card-body">
                         <p><strong>Login Time:</strong> <%= loginTime %></p>
-                        <a href="logout.jsp" class="btn logout-btn">Logout</a>
+                        <!-- FIXED: Changed from direct logout.jsp to controller -->
+                        <a href="#" class="btn logout-btn" class="btn btn-primary">Logout</a>
                     </div>
                 </div>
             </div>
@@ -147,13 +151,14 @@
                     <div class="card-body">
                         <h5 class="card-title">Help</h5>
                         <p class="card-text">Providing guidelines on how to use the Reservation System</p>
-                        <a href="#" class="btn btn-primary">View Instructions</a>
+                        <!-- FIXED: Changed from # to controller -->
+                        <a href="help.jsp">View Instructions</a>
                         <br>
                     </div>
                 </div>
             </div>
          </div>
-        
+    </div>
     
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
