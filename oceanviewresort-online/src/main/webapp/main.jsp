@@ -152,7 +152,7 @@
                         <h5 class="card-title">Help</h5>
                         <p class="card-text">Providing guidelines on how to use the Reservation System</p>
                         <!-- FIXED: Changed from # to controller -->
-                        <a href="help.jsp">View Instructions</a>
+                        <a href="help.jsp" class="btn btn-primary">View Instructions</a>
                         <br>
                     </div>
                 </div>
