@@ -50,21 +50,26 @@ public class ResortController extends HttpServlet {
             response.sendRedirect("resort?action=list");
         }
     }
-    
+
     private void listResorts(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             List<Resort> resortList = resortService.getAllResorts();
+            System.out.println("=== DEBUG ===");
+            System.out.println("Number of resorts found: " + resortList.size());
+            for (Resort r : resortList) {
+                System.out.println("Resort: " + r.getId() + " - " + r.getGuestName());
+            }
             request.setAttribute("resorts", resortList);
-            request.getRequestDispatcher("/WEB-INF/view/displayReservations.jsp").forward(request, response);
+            request.getRequestDispatcher("/displayReservations.jsp").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();
             request.setAttribute("errorMessage", "Database error: " + e.getMessage());
-            request.getRequestDispatcher("/WEB-INF/view/error.jsp").forward(request, response);
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
     }
 
     private void showAddForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/view/addReservations.jsp").forward(request, response);
+        request.getRequestDispatcher("/addReservations.jsp").forward(request, response);
     }
 
     private void addResort(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -75,10 +80,16 @@ public class ResortController extends HttpServlet {
             String roomtype = request.getParameter("roomtype");
             String indate = request.getParameter("indate");
             String outdate = request.getParameter("outdate");
-            
-            // Debug print
-            System.out.println("Adding resort: " + name + ", " + address);
-            
+
+            // Debug print all parameters
+            System.out.println("=== Adding Resort ===");
+            System.out.println("Name: " + name);
+            System.out.println("Address: " + address);
+            System.out.println("Contact: " + contact);
+            System.out.println("Room Type: " + roomtype);
+            System.out.println("Check In: " + indate);
+            System.out.println("Check Out: " + outdate);
+
             Resort resort = new Resort();
             resort.setGuestName(name);
             resort.setAddress(address);
@@ -86,14 +97,19 @@ public class ResortController extends HttpServlet {
             resort.setRoomType(roomtype);
             resort.setCheckInDate(indate);
             resort.setCheckOutDate(outdate);
-            
+
             resortService.addResort(resort);
+            System.out.println("Resort added successfully!");
             response.sendRedirect("resort?action=list");
-            
+
         } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute("errorMessage", "Error adding reservation: " + e.getMessage());
-            request.getRequestDispatcher("/WEB-INF/view/addReservations.jsp").forward(request, response);
+            e.printStackTrace(); // This will print the full error in IntelliJ console
+            System.out.println("ERROR: " + e.getMessage());
+            System.out.println("ERROR Type: " + e.getClass().getName());
+
+            request.setAttribute("errorMessage", "Error adding reservation: " + e.getMessage() + " - " + e.getClass().getSimpleName());
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
     }
-}
+
+    }

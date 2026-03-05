@@ -8,12 +8,23 @@
         .container {
             margin-top: 50px;
             max-width: 600px;
+            background: linear-gradient(135deg, #448AFF 0%, #764ba2 100%);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 30px;
         }
         .form-group {
             margin-bottom: 15px;
         }
         .btn-primary {
             width: 100%;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid white;
+        }
+        .btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
         }
         .error-message {
             color: #dc3545;
@@ -33,16 +44,15 @@
                 <input type="text" class="form-control" id="name" name="name" required>
             </div>
             <div class="form-group">
+                <label for="contact">Contact No:</label>
+                <input type="tel" class="form-control" id="contact" name="contact"  pattern="[0-9]{10}" maxlength="10" title="Please enter exactly 10 digits" required>
+                <div class="error-message" id="contactError">Contact number must be exactly 10 digits</div>
+            </div>
+            <div class="form-group">
                 <label for="address">Address:</label>
                 <input type="text" class="form-control" id="address" name="address" required>
             </div>
-            <div class="form-group">
-                <label for="contact">Contact No:</label>
-                <input type="tel" class="form-control" id="contact" name="contact" 
-                       pattern="[0-9]{10}" maxlength="10" 
-                       title="Please enter exactly 10 digits" required>
-                <div class="error-message" id="contactError">Contact number must be exactly 10 digits</div>
-            </div>
+
             <div class="form-group">
                 <label for="roomtype">Room Type:</label>
                 <select class="form-control" id="roomtype" name="roomtype" required>
@@ -64,9 +74,10 @@
                        value="2026-03-05" required>
             </div>
             <button type="submit" class="btn btn-primary">Add Reservation</button>
+            <span class="navbar-toggler-icon"></span>
         </form>
     </div>
-    
+
     <!-- Your existing scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
