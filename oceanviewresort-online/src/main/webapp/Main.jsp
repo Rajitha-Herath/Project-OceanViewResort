@@ -52,6 +52,7 @@
             border-radius: 5px;
             padding: 8px 20px;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
         .logout-btn:hover {
             background: #c82333;
@@ -209,13 +210,136 @@
             transform: scale(1.05);
         }
 
-        @media (max-width: 768px) {
-        .row.equal-height > [class*='col-'] {
+        /* Custom Modal Styles */
+        .modal-custom {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content-custom {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header-custom {
+            text-align: center;
             margin-bottom: 20px;
         }
 
-        .card-text {
-            min-height: auto;
+        .modal-header-custom i {
+            font-size: 50px;
+            color: #dc3545;
+            margin-bottom: 10px;
+        }
+
+        .modal-header-custom h3 {
+            color: #333;
+            font-weight: 600;
+        }
+
+        .modal-body-custom {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #6c757d;
+        }
+
+        .modal-footer-custom {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .modal-btn {
+            padding: 10px 30px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn-yes {
+            background: #dc3545;
+            color: white;
+        }
+
+        .modal-btn-yes:hover {
+            background: #c82333;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(220,53,69,0.3);
+        }
+
+        .modal-btn-no {
+            background: #6c757d;
+            color: white;
+        }
+
+        .modal-btn-no:hover {
+            background: #5a6268;
+            transform: scale(1.05);
+        }
+
+        /* Success Message Toast */
+        .toast-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(40,167,69,0.3);
+            z-index: 10000;
+            display: none;
+            animation: slideInRight 0.3s ease;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .toast-message i {
+            margin-right: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .row.equal-height > [class*='col-'] {
+                margin-bottom: 20px;
+            }
+
+            .card-text {
+                min-height: auto;
             }
         }
     </style>
@@ -242,7 +366,7 @@
                         <a class="nav-link" href="help.jsp">Help</a>
                     </li>
                     <li class="nav-item">
-                        <a href="login.jsp" class="btn logout-btn ml-2">Logout</a>
+                        <a href="javascript:void(0);" class="btn logout-btn ml-2" onclick="showLogoutModal()">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -308,13 +432,84 @@
                     <p><strong>Login Time:</strong> <%= loginTime %></p>
                 </div>
                 <div class="col-md-6 text-right">
-                    <a href="login.jsp" class="btn logout-btn">Logout</a>
+                    <a href="javascript:void(0);" class="btn logout-btn" onclick="showLogoutModal()">Logout</a>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Logout Confirmation Modal -->
+    <div id="logoutModal" class="modal-custom">
+        <div class="modal-content-custom">
+            <div class="modal-header-custom">
+                <i class="fas fa-sign-out-alt"></i>
+                <h3>Confirm Logout</h3>
+            </div>
+            <div class="modal-body-custom">
+                <p>Are you sure you want to logout?</p>
+            </div>
+            <div class="modal-footer-custom">
+                <button class="modal-btn modal-btn-yes" onclick="logout()">Yes, Logout</button>
+                <button class="modal-btn modal-btn-no" onclick="hideLogoutModal()">No, Stay</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Toast Message -->
+    <div id="successToast" class="toast-message">
+        <i class="fas fa-check-circle"></i>
+        <span>Successfully logged out! Your data has been saved.</span>
+    </div>
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Show logout confirmation modal
+        function showLogoutModal() {
+            document.getElementById('logoutModal').style.display = 'flex';
+        }
+
+        // Hide logout confirmation modal
+        function hideLogoutModal() {
+            document.getElementById('logoutModal').style.display = 'none';
+        }
+
+        // Show success toast message
+        function showSuccessToast() {
+            var toast = document.getElementById('successToast');
+            toast.style.display = 'block';
+
+            // Hide toast after 3 seconds
+            setTimeout(function() {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        // Logout function - redirect to login.jsp after showing success message
+        function logout() {
+            // Hide the modal
+            hideLogoutModal();
+
+            // Show success message
+            showSuccessToast();
+
+            // Redirect to login page after 1.5 seconds
+            setTimeout(function() {
+                window.location.href = 'login.jsp';
+            }, 1500);
+        }
+
+        // Close modal if user clicks outside
+        window.onclick = function(event) {
+            var modal = document.getElementById('logoutModal');
+            if (event.target == modal) {
+                hideLogoutModal();
+            }
+        }
+    </script>
 </body>
 </html>

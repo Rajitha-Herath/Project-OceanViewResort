@@ -23,28 +23,12 @@
         }
 
         .login-card {
-            background: white;
+            background: linear-gradient(135deg, #448AFF 0%, #764ba2 100%);
             border-radius: 15px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.2);
             padding: 40px 30px;
-        }
-
-        .nav-links {
-            display: flex;
-            justify-content: flex-end;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .nav-links a {
-            color: #6c757d;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 16px;
-        }
-
-        .nav-links a:hover {
-            color: #667eea;
+            color: white !important;
+            border-radius: 15px;
         }
 
         h2 {
@@ -52,21 +36,8 @@
             font-weight: 600;
             margin-bottom: 30px;
             font-size: 28px;
+            color: white !important;
         }
-
-        .form-group {
-            margin-bottom: 25px;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #555;
-            font-weight: 500;
-            font-size: 14px;
-        }
-
         .form-control {
             height: 50px;
             border: 2px solid #e1e1e1;
@@ -86,25 +57,39 @@
             margin-bottom: 20px;
         }
 
+        /* Forgot password link in white */
+        .forgot-password a {
+            color: white !important;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+            opacity: 0.9;
+        }
+
         .login-btn {
-            background: #448AFF;
             color: white;
-            border: none;
             border-radius: 8px;
             padding: 14px 30px;
             font-weight: 600;
             font-size: 16px;
             width: 100%;
             transition: all 0.3s ease;
-            margin-bottom: 25px;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid white;
+            margin-right: 20px;
         }
 
         .login-btn:hover {
-            background: #2962FF;
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(68,138,255,0.3);
         }
@@ -113,22 +98,6 @@
             opacity: 0.7;
             cursor: not-allowed;
             transform: none;
-        }
-
-        .register-link {
-            color: #6c757d;
-            font-size: 15px;
-        }
-
-        .register-link a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-            margin-left: 5px;
-        }
-
-        .register-link a:hover {
-            text-decoration: underline;
         }
 
         .action-buttons {
@@ -180,6 +149,14 @@
             border-left: 4px solid #dc3545;
         }
 
+        /* Custom alert for forgot password message */
+        .alert-info-custom {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border-left: 4px solid white;
+            backdrop-filter: blur(5px);
+        }
+
         .fade-out {
             animation: fadeOut 0.5s ease-in-out forwards;
             animation-delay: 3s;
@@ -214,6 +191,7 @@
             opacity: 0.8;
             cursor: wait;
         }
+
     </style>
 </head>
 <body>
@@ -259,6 +237,11 @@
                 </div>
             <% } %>
 
+            <%-- Forgot password message container --%>
+            <div id="forgotPasswordMessage" style="display: none;" class="alert alert-info-custom" role="alert">
+                <i class="fas fa-info-circle"></i> Please contact the administrator to reset your password.
+            </div>
+
             <form action="#" method="post" id="loginForm">
                 <div class="form-group">
                     <label>User Email <span class="required-field">*</span></label>
@@ -281,7 +264,7 @@
 
                 <div class="action-buttons">
                     <div class="forgot-password">
-                        <a href="#">Forgot Password ?</a>
+                        <a href="#" onclick="showForgotPasswordMessage(); return false;">Forgot Password ?</a>
                     </div>
                 </div>
 
@@ -292,10 +275,13 @@
             </form>
 
             <div class="register-link text-center mt-3" style="font-size: 13px; color: #999;">
-                Demo credentials: rajitha@gmail.com" / qaz123
+                Demo credentials: rajitha@gmail.com / qaz123
             </div>
         </div>
     </div>
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <!-- Optional Bootstrap JS for better interactivity -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -321,6 +307,17 @@
             btn.classList.add('btn-loading');
             btn.disabled = true;
         });
+
+        // Function to show forgot password message
+        function showForgotPasswordMessage() {
+            var messageDiv = document.getElementById('forgotPasswordMessage');
+            messageDiv.style.display = 'block';
+
+            // Auto hide after 5 seconds
+            setTimeout(function() {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
     </script>
 </body>
 </html>
