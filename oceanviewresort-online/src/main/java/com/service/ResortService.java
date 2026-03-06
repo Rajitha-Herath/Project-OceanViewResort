@@ -51,4 +51,6 @@ public class ResortService {
     public void deleteResort(int resortId) throws SQLException {
         resortDAO.deleteResort(resortId);
     }
+
+
 }

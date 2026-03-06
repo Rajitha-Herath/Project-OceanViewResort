@@ -67,5 +67,6 @@ public class BillController extends HttpServlet {
             request.setAttribute("errorMessage", "Database error: " + e.getMessage());
             request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
+
     }
 }

@@ -32,6 +32,30 @@ public class DBConnection {
 			System.out.println("SQL State: " + e.getSQLState());
 			e.printStackTrace();
 		}
+
+		// Add more detailed error logging in DBConnection constructor:
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				System.out.println("MySQL JDBC Driver loaded successfully");
+
+				// Print connection details (without password)
+				System.out.println("Attempting to connect to: " + DB_URL);
+				System.out.println("Username: " + DB_USER);
+
+				this.connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+				System.out.println("Database connected successfully!");
+
+			} catch (ClassNotFoundException e) {
+				System.out.println("MySQL JDBC Driver not found! Check if MySQL connector JAR is in classpath");
+				e.printStackTrace();
+			} catch (SQLException e) {
+				System.out.println("Connection failed! Check output console");
+				System.out.println("SQL Error Code: " + e.getErrorCode());
+				System.out.println("SQL State: " + e.getSQLState());
+				System.out.println("Error Message: " + e.getMessage());
+				e.printStackTrace();
+			}
+
 	}
 
 	public static DBConnection getInstance() {
@@ -66,9 +90,9 @@ public class DBConnection {
 		Connection conn = dbConnection.getConnection();
 
 		if (conn != null) {
-			System.out.println("✅ Connection successful!");
+			System.out.println(" Connection successful!");
 		} else {
-			System.out.println("❌ Connection failed!");
+			System.out.println("Connection failed!");
 		}
 	}
 }

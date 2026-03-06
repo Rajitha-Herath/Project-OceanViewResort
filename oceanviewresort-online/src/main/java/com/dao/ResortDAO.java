@@ -41,7 +41,7 @@ public class ResortDAO {
             System.out.println("Rows affected: " + rowsAffected);
 
         } catch (SQLException e) {
-            System.out.println("❌ SQL Error in addResort:");
+            System.out.println("    SQL Error in addResort:");
             System.out.println("   Error Code: " + e.getErrorCode());
             System.out.println("   SQL State: " + e.getSQLState());
             System.out.println("   Message: " + e.getMessage());
@@ -131,7 +131,7 @@ public class ResortDAO {
         try {
             Connection conn = DBConnectionFactory.getConnection();
             if (conn != null) {
-                System.out.println("✅ Database connection successful!");
+                System.out.println(" Database connection successful!");
 
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery("SELECT COUNT(*) as count FROM reservation_table");
@@ -147,7 +147,7 @@ public class ResortDAO {
                             ", Name: " + rs.getString("guest_name"));
                 }
             } else {
-                System.out.println("❌ Database connection failed!");
+                System.out.println(" Database connection failed!");
             }
         } catch (SQLException e) {
             e.printStackTrace();

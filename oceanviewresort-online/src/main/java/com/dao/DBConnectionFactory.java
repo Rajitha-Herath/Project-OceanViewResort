@@ -9,13 +9,13 @@ public class DBConnectionFactory {
 		try {
 			Connection conn = DBConnection.getInstance().getConnection();
 			if (conn == null) {
-				System.out.println("⚠️ Warning: Connection is null in DBConnectionFactory");
+				System.out.println(" Warning: Connection is null in DBConnectionFactory");
 			} else {
-				System.out.println("✅ Connection obtained successfully from factory");
+				System.out.println("Connection obtained successfully from factory");
 			}
 			return conn;
 		} catch (Exception e) {
-			System.out.println("❌ Error getting connection from factory: " + e.getMessage());
+			System.out.println(" Error getting connection from factory: " + e.getMessage());
 			e.printStackTrace();
 			return null;
 		}
